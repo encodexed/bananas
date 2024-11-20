@@ -1,46 +1,36 @@
 <script lang="ts">
+  // Components
   import RandomTile from '$lib/components/RandomTile.svelte';
+
+  // Stores / State runes
+  import { gameState } from '$lib/stores/gameState.svelte';
+
+  let { tilesLeft } = gameState;
+  const { board } = gameState;
+
+  const handleTileDrop = () => {
+    console.log('Stuff dropped');
+  };
 </script>
 
-<main>
-  <div class="board"></div>
+<main class="flex flex-col items-center">
+  <div class="w-[480px] h-[480px] bg-amber-800 flex flex-wrap overflow-scroll">
+    {#each board as row, i}
+      {#each row as tileSlot, j}
+        <div
+          id={`${i}-${j}`}
+          class="flex items-center justify-center w-12 h-12 transition-all duration-100 bg-white border hover:bg-blue-200"
+        >
+          <p class="select-none">
+            {tileSlot.value?.value || `${i} ${j}`}
+          </p>
+        </div>
+      {/each}
+    {/each}
+  </div>
   <div class="rack">
-    {#each { length: 20 } as _}
+    {#each { length: 15 } as _}
       <RandomTile />
     {/each}
   </div>
 </main>
-
-<style>
-  main {
-    height: 100vh;
-    width: 100%;
-    display: flex;
-    gap: 20px;
-    flex-direction: column;
-    align-items: center;
-    background-color: #474747;
-  }
-
-  .board {
-    width: 60%;
-    max-width: 800px;
-    min-width: 300px;
-    height: 60%;
-    max-height: 800px;
-    min-height: 300px;
-    background-color: #dfebec;
-  }
-
-  .rack {
-    background-color: green;
-    border: 2px solid yellow;
-    border-radius: 20px;
-    height: fit-content;
-    padding: 10px;
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    max-width: 600px;
-  }
-</style>

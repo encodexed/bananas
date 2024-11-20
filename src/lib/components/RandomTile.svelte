@@ -1,35 +1,15 @@
 <script lang="ts">
-  import { changePosition } from '$lib/helpers/dragdrop';
-
-  const ondragstart = (e: DragEvent | null) => {
-    if (!e) return;
-    const ele = e.target;
-    if (!(ele instanceof HTMLElement)) return;
-  };
-
-  const ondragend = (e: MouseEvent | null) => {
-    if (!e) return;
-    const ele = e.target;
-    if (!(ele instanceof HTMLElement)) return;
-    changePosition(ele, e.clientX, e.clientY);
-  };
+  import { draggable } from '@neodrag/svelte';
 
   const getRandomLetter = () => {
-    const alphabet = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const alphabet =
+      'AAAAAAAAAAAAABBBCCCDDDDDDEEEEEEEEEEEEEEEEEEFFFGGGGHHHIIIIIIIIIIIIJJKKLLLLLMMMNNNNNNNNOOOOOOOOOOOPPPQQRRRRRRRRRSSSSSSTTTTTTTTTUUUUUUVVVWWWXXYYYZZ';
     const randomIndex = Math.floor(Math.random() * alphabet.length);
     return alphabet[randomIndex];
   };
 </script>
 
-<button
-  type="button"
-  class="move-me"
-  draggable="true"
-  {ondragstart}
-  {ondragend}
->
-  {getRandomLetter()}
-</button>
+<button class="move-me" use:draggable>{getRandomLetter()}</button>
 
 <style>
   .move-me {
